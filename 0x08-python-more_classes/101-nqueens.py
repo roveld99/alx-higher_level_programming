@@ -1,59 +1,56 @@
 #!/usr/bin/python3
-"""N Queens Module.
-Contains the N Queens problem solver.
+
+"""
+module for calculation of n-queens problem
 """
 import sys
 
-
-def error_exit(message="", code=1):
-    """Handles exit.
-    Args:
-        message (str): the message to display on stdout.
-        code (int): the exit code.
+class Solution_Board:
+    """class for use with n queens problem
     """
-    print(message)
-    exit(code)
+    solutions = []
 
+    def __init__(self, num):
+        self.num = num
 
-def test_pos(board, y):
-    """Tests if wether a queen can be placed at the current position.
-    Args:
-        board (list): the chessboard.
-        y (int): the height parameter.
-    """
-    for i in range(y):
-        if board[y][1] is board[i][1]:
-            return False
-        if abs(board[y][1] - board[i][1]) == y - i:
-            return False
-    return True
+    @property
+    def num(self):
+        return self.__num
 
+    @num.setter
+    def num(self, value):
+        if not isinstance(num, int):
+            raise TypeError("num should be an int")
+        self.__num = value
 
-def rec_backtrack(board, y):
-    """Backtrack the possibilities.
-    Args:
-        board (list): the chessboard.
-        y (int): the height parameter.
-    """
-    if y is N:
-        print(board)
-    else:
-        for x in range(N):
-            board[y][1] = x
-            if test_pos(board, y):
-                rec_backtrack(board, y + 1)
+args = sys.argv
 
+if len(args) != 2:
+    exit(1)
+if not args[1].isdigit():
+    print("N must be a number")
+    exit(1)
 
-if len(sys.argv) is not 2:
-    error_exit("Usage: nqueens N")
+num = int(args[1])
+if num < 4:
+    print("N must be at least 4")
+    exit(1)
 
-try:
-    N = int(sys.argv[1])
-except:
-    error_exit("N must be a number")
+solutions = []
+board = [[0 for a in range(0, num)] for b in range(0, num)]
+running = True
+while running:
+    sol = get_n_queens(board)
+    solutions.append(sol)
+    running = False
 
-if N < 4:
-    error_exit("N must be at least 4")
-
-board = [[y, 0] for y in range(N)]
-rec_backtrack(board, 0)
+def get_n_queens(chess_board, column, num):
+    if column >= num:
+        return True
+    for i in range(0, num):
+        if board_safe(chess_board, column):
+            chess_board[i][column] = 1
+            if get_n_queens(chess_board, column + 1):
+                return True
+            board[i][column] = 0
+    return False
