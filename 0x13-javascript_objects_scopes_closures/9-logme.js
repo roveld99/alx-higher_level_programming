@@ -1,10 +1,7 @@
-
-  
 #!/usr/bin/node
-// prints the number of arguments already printed and the new argument value.
 
-let i = 0;
+let nbArgs = 0;
 exports.logMe = function (item) {
-  console.log(i + ': ' + item);
-  i++;
+  console.log(nbArgs + ': ' + item);
+  nbArgs++;
 };
